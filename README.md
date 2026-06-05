@@ -2,6 +2,26 @@
 
 Reusable Zig development workflows for build systems, C interop, debugging, cross-compilation, and Zig 0.16 migration work.
 
+## Install
+
+```bash
+npx skills add venjiang/skills --skill zig-dev
+```
+
+## GitHub
+
+Repository:
+
+```text
+https://github.com/venjiang/skills
+```
+
+Expected skills.sh page after indexing:
+
+```text
+https://www.skills.sh/venjiang/skills/zig-dev
+```
+
 ## Skills
 
 - `zig-dev`: Zig development workflow for source files, build files, tests, C interop, cross-compilation, and Zig 0.16 migration.
