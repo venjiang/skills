@@ -8,12 +8,34 @@ The skills in this repository use the standard `SKILL.md` folder format and are 
 
 Verified install targets:
 
-- Codex
-- Claude Code
+| Tool | skills CLI agent name |
+| --- | --- |
+| Codex | `codex` |
+| Claude Code | `claude-code` |
+| OpenCode | `opencode` |
+| OpenClaw | `openclaw` |
+| Cursor | `cursor` |
+| Windsurf | `windsurf` |
+| Cline | `cline` |
+| Continue | `continue` |
+| Goose | `goose` |
+| OpenHands | `openhands` |
+| Roo Code | `roo` |
+| Amp | `amp` |
+| AiderDesk | `aider-desk` |
+| Gemini CLI | `gemini-cli` |
+| Qwen Code | `qwen-code` |
+| Kiro CLI | `kiro-cli` |
+| GitHub Copilot | `github-copilot` |
+| Tabnine CLI | `tabnine-cli` |
+| Warp | `warp` |
+| Zed | `zed` |
+| Trae | `trae` |
+| Zencoder | `zencoder` |
+| Augment | `augment` |
+| Antigravity | `antigravity` |
 
-The skills CLI also supports installing the same skill into other local agent environments. Use the all-agent command below to install into every supported target detected on your machine.
-
-Examples of supported targets reported by the skills CLI include Amp, Antigravity, Cline, OpenClaw, Continue, Goose, Kiro, OpenHands, Roo, Windsurf, Tabnine, Trae, and Zencoder. The exact set depends on your local skills CLI version and installed agent directories.
+Use the all-agent command below to install into every supported target detected on your machine. The exact target set depends on your local skills CLI version and installed agent directories.
 
 ## Skills
 
@@ -48,6 +70,24 @@ Install for Claude Code:
 npx skills add venjiang/skills --skill zig-dev --agent claude-code
 ```
 
+Install for OpenCode:
+
+```bash
+npx skills add venjiang/skills --skill zig-dev --agent opencode
+```
+
+Install for OpenClaw:
+
+```bash
+npx skills add venjiang/skills --skill zig-dev --agent openclaw
+```
+
+Install for other supported tools:
+
+```bash
+npx skills add venjiang/skills --skill zig-dev --agent <agent-name>
+```
+
 Install for every supported local agent detected by the skills CLI:
 
 ```bash
@@ -64,6 +104,8 @@ The skill has been verified with:
 - `npx skills use venjiang/skills@zig-dev`
 - `npx skills add venjiang/skills --skill zig-dev --agent codex --copy -g -y`
 - `npx skills add venjiang/skills --skill zig-dev --agent claude-code --copy -g -y`
+- `npx skills add venjiang/skills --skill zig-dev --agent opencode --copy -g -y`
+- `npx skills add venjiang/skills --skill zig-dev --agent openclaw --copy -g -y`
 - `npx skills add venjiang/skills --skill zig-dev --agent '*' --copy -g -y`
 
 The all-agent installation check copied `zig-dev` into multiple supported agent skill directories. One target reported that it does not support global skill installation; this does not affect the `zig-dev` skill content or the other supported targets.
