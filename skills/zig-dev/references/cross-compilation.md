@@ -15,10 +15,11 @@ Use `zig build --help` to confirm the project exposes `-Dtarget` and `-Doptimize
 
 ## Target Discovery
 
-Use local Zig instead of hardcoding long target tables:
+Use local Zig instead of hardcoding long target tables. `zig targets` can print tens of thousands of lines, so avoid running it unbounded when only a small fact is needed.
 
 ```bash
-zig targets
+zig targets 2>&1 | head -c 12000
+zig targets 2>&1 | rg "x86_64-linux-musl|wasm32-wasi|aarch64-macos"
 ```
 
 Common examples to try only when relevant:

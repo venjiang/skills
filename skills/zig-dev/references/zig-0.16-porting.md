@@ -100,6 +100,18 @@ pub fn main(init: std.process.Init) !void {
 
 Keep `pub fn main() !void` for small programs that do not need I/O interfaces, process args, env, or process-lifetime allocation.
 
+For stdout on Zig `0.16`, avoid old `std.fs.File.stdout` examples. Use `std.Io.File.stdout()` with an `std.Io` value from `std.process.Init`:
+
+```zig
+pub fn main(init: std.process.Init) !void {
+    var stdout_buffer: [1024]u8 = undefined;
+    var stdout_writer = std.Io.File.stdout().writer(init.io, &stdout_buffer);
+    const stdout = &stdout_writer.interface;
+    try stdout.print("hello\n", .{});
+    try stdout.flush();
+}
+```
+
 ## Collections
 
 `std.ArrayList(T)` no longer embeds an allocator by default:
@@ -154,6 +166,7 @@ Use `zig fetch --save <url>` to add package dependencies when possible. Use `zig
 | `no module named ... available` in single-file command | File depends on build graph imports | Use `zig build` / `zig build test` |
 | `fingerprint field missing` | Old `build.zig.zon` | Add generated `.fingerprint` and use enum-literal `.name` |
 | old `std.io.fixedBufferStream` usage | I/O API migration | Use `std.Io.Reader.fixed` or `std.Io.Writer.fixed` |
+| old `std.fs.File.stdout` usage | I/O API migration | Use `std.Io.File.stdout().writer(init.io, buffer)` |
 | old global args/env helpers | process API migration | Thread `std.process.Init` or `std.process.Init.Minimal` through entrypoint |
 | `@Type` compile failures | Builtin removed | Use specific builtins such as `@Int`, `@Struct`, `@Pointer`, `@Fn`, `@Tuple` |
 
