@@ -142,6 +142,7 @@ GitHub Actions validates:
 - `zig fmt --check`
 - `zig ast-check build.zig`
 - `zig build`
+- `zig build test`
 - `zig build run`
 - `zig build -Dtarget=x86_64-linux-musl -Doptimize=ReleaseSmall`
 - `zig cc -target x86_64-linux-musl`

@@ -73,6 +73,47 @@ Common ABI rules:
 - Use `c_int`, `c_uint`, `c_long`, and related C ABI types for C signatures.
 - Set `link_libc = true` when using libc or C source files.
 
+## C Enum Wrapper Mapping
+
+`translate-c` commonly represents C enums as integer aliases and constants, not Zig domain enums. Keep those translated values at the ABI boundary and map them explicitly before they enter project logic.
+
+Example translated shape:
+
+```zig
+pub const STATUS_OK: c_int = 0;
+pub const STATUS_RETRY: c_int = 1;
+pub const STATUS_FAILED: c_int = -1;
+pub const enum_status = c_int;
+pub const status = enum_status;
+```
+
+Preferred wrapper pattern:
+
+```zig
+const Status = enum {
+    ok,
+    retry,
+    failed,
+    unknown,
+};
+
+fn statusFromC(raw: c.status) Status {
+    return switch (@as(c_int, raw)) {
+        c.STATUS_OK => .ok,
+        c.STATUS_RETRY => .retry,
+        c.STATUS_FAILED => .failed,
+        else => .unknown,
+    };
+}
+```
+
+Use this rule of thumb:
+
+- Status codes and protocol codes: map to a Zig domain enum with `.unknown` or return `error.UnknownStatus`.
+- Error codes: map to Zig errors or `!T` at the wrapper boundary.
+- Bit flags: keep as integer flags or wrap in a dedicated flags type; do not model them as a normal Zig enum.
+- ABI-only values: keep `c.*` types inside the wrapper module and do not expose them through the project API.
+
 ## translate-c
 
 `zig translate-c` is useful for inspecting how Zig sees C declarations, but do not make it a default fast validation step. On this local Zig `0.16.0` environment, trivial `translate-c` checks may take longer than normal build commands. Use it only when ABI translation is the question.

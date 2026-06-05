@@ -30,6 +30,7 @@ jobs:
           zig fmt --check build.zig src/main.zig
           zig ast-check build.zig
           zig build
+          zig build test
           zig build run
           zig build -Dtarget=x86_64-linux-musl -Doptimize=ReleaseSmall
           zig cc -target x86_64-linux-musl -c src/answer.c -I include -o /tmp/answer.o

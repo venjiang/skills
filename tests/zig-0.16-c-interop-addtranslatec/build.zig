@@ -35,4 +35,8 @@ pub fn build(b: *std.Build) void {
     const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
     run_step.dependOn(&run_cmd.step);
+
+    const tests = b.addTest(.{ .root_module = exe.root_module });
+    const test_step = b.step("test", "Run fixture tests");
+    test_step.dependOn(&b.addRunArtifact(tests).step);
 }
