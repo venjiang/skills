@@ -1,6 +1,6 @@
 ---
 name: zig-dev
-description: Zig development workflow. Use when working with `.zig`, `build.zig`, `build.zig.zon`, Zig tests, Zig build failures, Zig debugging, Zig/C interop, `zig cc`, cross-compilation, WASM, or embedded Zig targets. Assumes local Zig baseline is 0.16.0 unless the project declares another version.
+description: Zig development workflow. Use when working with `.zig`, `build.zig`, `build.zig.zon`, Zig tests, Zig build failures, Zig debugging, Zig/C interop with `b.addTranslateC` or `zig cc`, cross-compilation, WASM, or embedded Zig targets. Assumes local Zig baseline is 0.16.0 unless the project declares another version.
 ---
 
 # Zig Dev

@@ -57,7 +57,7 @@ Use this skill when working with:
 Install the current release:
 
 ```bash
-npx skills add venjiang/skills@v0.1.2 --skill zig-dev
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev
 ```
 
 Install the latest `main` branch:
@@ -131,6 +131,14 @@ Expected skills.sh page after indexing:
 ```text
 https://www.skills.sh/venjiang/skills/zig-dev
 ```
+
+## Releases
+
+- `v0.1.4`: Current recommended release. Updates repository docs and skill metadata after the Zig `0.16` C interop refinements.
+- `v0.1.3`: Adds C enum wrapper mapping guidance and validates translated C enum handling.
+- `v0.1.2`: Adds CI and the Zig `0.16` C interop fixture.
+- `v0.1.1`: Aligns C interop guidance with Zig `0.16` `b.addTranslateC`.
+- `v0.1.0`: Initial `zig-dev` release.
 
 ## Validation
 
