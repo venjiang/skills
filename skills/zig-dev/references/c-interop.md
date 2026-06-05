@@ -1,6 +1,10 @@
 # C Interop
 
-Use this for `@cImport`, `@cInclude`, `zig translate-c`, C ABI types, `extern struct`, opaque handles, mixed C/Zig builds, and `zig cc`.
+Use this for Zig `0.16` C interop with `b.addTranslateC`, translated C modules, C ABI types, `extern struct`, opaque handles, mixed C/Zig builds, and `zig cc`.
+
+Do not use deprecated `@cImport` / `@cInclude` for new Zig `0.16` code. Treat them as legacy patterns only when reading or minimally maintaining existing code.
+
+Official Zig `0.16.0` guidance: release notes mark `@cImport` as deprecated and provide `b.addTranslateC` plus `@import("c")` as the build-system upgrade path: https://ziglang.org/download/0.16.0/release-notes.html#cimport-moving-to-build-system
 
 ## Zig 0.16 Build Integration
 
@@ -33,12 +37,32 @@ exe.root_module.addCSourceFiles(.{
 });
 ```
 
-## Calling C From Zig
+## Translating Headers For Zig
 
 ```zig
-const c = @cImport({
-    @cInclude("answer.h");
+const translated = b.addTranslateC(.{
+    .root_source_file = b.path("include/answer.h"),
+    .target = target,
+    .optimize = optimize,
 });
+
+const exe = b.addExecutable(.{
+    .name = "my_app",
+    .root_module = b.createModule(.{
+        .root_source_file = b.path("src/main.zig"),
+        .target = target,
+        .optimize = optimize,
+        .imports = &.{
+            .{ .name = "c", .module = translated.createModule() },
+        },
+    }),
+});
+```
+
+Then import translated declarations from Zig source:
+
+```zig
+const c = @import("c");
 ```
 
 Common ABI rules:
@@ -60,6 +84,10 @@ zig translate-c -I include include/library.h
 ```
 
 Prefer existing headers, project bindings, and successful `zig build` output as the first validation surface.
+
+## Legacy @cImport
+
+`@cImport` still exists in Zig `0.16.0`, but official release notes mark it deprecated and moving to the build system. Do not introduce it in new code. If an existing project uses `@cImport` and it builds, leave it alone unless the task is explicitly a migration or the touched code already needs C interop changes.
 
 ## zig cc
 

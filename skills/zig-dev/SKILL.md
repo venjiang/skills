@@ -16,7 +16,8 @@ description: Zig development workflow. Use when working with `.zig`, `build.zig`
 
 - Build system, modules, `build.zig`, `build.zig.zon`, build options, or package fetching: read `references/build-system.md`.
 - Panics, error return traces, allocator leaks, crashes, native debugging, debug logging, or failing tests: read `references/debugging.md`.
-- `@cImport`, `@cInclude`, `zig translate-c`, C ABI, `extern struct`, mixed C/Zig builds, or `zig cc`: read `references/c-interop.md`.
+- `b.addTranslateC`, C header translation, C ABI, `extern struct`, mixed C/Zig builds, or `zig cc`: read `references/c-interop.md`.
+- Existing deprecated `@cImport` / `@cInclude` code or migration away from it: read `references/zig-0.16-porting.md` first, then `references/c-interop.md` if C build integration is needed.
 - `-Dtarget`, target triples, cross-compilation, WASM, embedded, or release artifacts: read `references/cross-compilation.md`.
 - Zig 0.15/0.16 API migration, `std.Io` changes, `@Type` removal, `@cImport` migration, `build.zig.zon` fingerprint errors, or old stdlib API errors: read `references/zig-0.16-porting.md`.
 

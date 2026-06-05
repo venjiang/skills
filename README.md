@@ -48,7 +48,7 @@ Use this skill when working with:
 - `.zig` source files
 - `build.zig` and `build.zig.zon`
 - Zig tests and build failures
-- C interop, `@cImport`, C ABI types, and `zig cc`
+- C interop with `b.addTranslateC`, C ABI types, and `zig cc`
 - Cross-compilation, WASM, and embedded targets
 - Zig 0.15 to 0.16 migration issues
 

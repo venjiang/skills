@@ -44,7 +44,7 @@ For more complex generated structs, pointers, and function types, verify the exa
 
 ## C Imports
 
-For new Zig `0.16` code, prefer build-system translation:
+For new Zig `0.16` code, use build-system translation. Official Zig `0.16.0` release notes mark `@cImport` as deprecated and show this `b.addTranslateC` upgrade path: https://ziglang.org/download/0.16.0/release-notes.html#cimport-moving-to-build-system
 
 ```zig
 const translated = b.addTranslateC(.{
@@ -72,7 +72,9 @@ Then import translated declarations:
 const c = @import("c");
 ```
 
-Local boundary: existing code that uses `@cImport` can remain if it builds and the task is not a migration. On this machine, `zig translate-c` can be slow even for tiny headers, so do not use it as a default fast validation command. Use it only when ABI translation is the specific question.
+Local boundary: do not introduce `@cImport` in new Zig `0.16` code. Existing code that uses `@cImport` can remain only for minimal maintenance when it builds and the task is not a migration. If the touched area is already changing C interop behavior, prefer migrating it to `b.addTranslateC`.
+
+On this machine, `zig translate-c` can be slow even for tiny headers, so do not use it as a default fast validation command. Use it only when ABI translation is the specific question.
 
 For C source integration and `link_libc`, see `c-interop.md`.
 
@@ -167,6 +169,7 @@ Use `zig fetch --save <url>` to add package dependencies when possible. Use `zig
 | `fingerprint field missing` | Old `build.zig.zon` | Add generated `.fingerprint` and use enum-literal `.name` |
 | old `std.io.fixedBufferStream` usage | I/O API migration | Use `std.Io.Reader.fixed` or `std.Io.Writer.fixed` |
 | old `std.fs.File.stdout` usage | I/O API migration | Use `std.Io.File.stdout().writer(init.io, buffer)` |
+| deprecated `@cImport` / `@cInclude` in touched C interop code | C translation moved to build system | Use `b.addTranslateC` and import the translated module with `@import("c")` |
 | old global args/env helpers | process API migration | Thread `std.process.Init` or `std.process.Init.Minimal` through entrypoint |
 | `@Type` compile failures | Builtin removed | Use specific builtins such as `@Int`, `@Struct`, `@Pointer`, `@Fn`, `@Tuple` |
 
