@@ -54,6 +54,14 @@ Use this skill when working with:
 
 ## Install `zig-dev`
 
+Install the current release:
+
+```bash
+npx skills add venjiang/skills@v0.1.2 --skill zig-dev
+```
+
+Install the latest `main` branch:
+
 ```bash
 npx skills add venjiang/skills --skill zig-dev
 ```
@@ -123,6 +131,20 @@ Expected skills.sh page after indexing:
 ```text
 https://www.skills.sh/venjiang/skills/zig-dev
 ```
+
+## Validation
+
+The repository includes a Zig `0.16.0` C interop fixture at `tests/zig-0.16-c-interop-addtranslatec`. It validates the official `b.addTranslateC` plus `@import("c")` path for new Zig `0.16` C interop code.
+
+GitHub Actions validates:
+
+- `npx skills add . --skill zig-dev --list`
+- `zig fmt --check`
+- `zig ast-check build.zig`
+- `zig build`
+- `zig build run`
+- `zig build -Dtarget=x86_64-linux-musl -Doptimize=ReleaseSmall`
+- `zig cc -target x86_64-linux-musl`
 
 ## License
 
