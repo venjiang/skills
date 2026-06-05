@@ -57,7 +57,7 @@ Use this skill when working with:
 Install the current release:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev
 ```
 
 Install the latest `main` branch:
@@ -69,37 +69,37 @@ npx skills add venjiang/skills --skill zig-dev
 Install for Codex:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent codex
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent codex
 ```
 
 Install for Claude Code:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent claude-code
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent claude-code
 ```
 
 Install for OpenCode:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent opencode
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent opencode
 ```
 
 Install for OpenClaw:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent openclaw
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent openclaw
 ```
 
 Install for other supported tools:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent <agent-name>
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent <agent-name>
 ```
 
 Install for every supported local agent detected by the skills CLI:
 
 ```bash
-npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent '*'
+npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent '*'
 ```
 
 ## Compatibility
@@ -134,7 +134,8 @@ https://www.skills.sh/venjiang/skills/zig-dev
 
 ## Releases
 
-- `v0.1.4`: Current recommended release. Updates repository docs and skill metadata after the Zig `0.16` C interop refinements.
+- `v0.1.5`: Current recommended release. Pins agent install commands and refines skills.sh repository grouping metadata.
+- `v0.1.4`: Updates repository docs and skill metadata after the Zig `0.16` C interop refinements.
 - `v0.1.3`: Adds C enum wrapper mapping guidance and validates translated C enum handling.
 - `v0.1.2`: Adds CI and the Zig `0.16` C interop fixture.
 - `v0.1.1`: Aligns C interop guidance with Zig `0.16` `b.addTranslateC`.
