@@ -3,8 +3,8 @@
   "notGrouped": "bottom",
   "groupings": [
     {
-      "title": "Zig",
-      "description": "Skills for Zig build, interop, debugging, cross-compilation, and migration work.",
+      "title": "Zig Development",
+      "description": "Zig build, test, C interop, cross-compilation, debugging, and migration workflows.",
       "skills": ["zig-dev"]
     }
   ]

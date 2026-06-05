@@ -69,37 +69,37 @@ npx skills add venjiang/skills --skill zig-dev
 Install for Codex:
 
 ```bash
-npx skills add venjiang/skills --skill zig-dev --agent codex
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent codex
 ```
 
 Install for Claude Code:
 
 ```bash
-npx skills add venjiang/skills --skill zig-dev --agent claude-code
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent claude-code
 ```
 
 Install for OpenCode:
 
 ```bash
-npx skills add venjiang/skills --skill zig-dev --agent opencode
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent opencode
 ```
 
 Install for OpenClaw:
 
 ```bash
-npx skills add venjiang/skills --skill zig-dev --agent openclaw
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent openclaw
 ```
 
 Install for other supported tools:
 
 ```bash
-npx skills add venjiang/skills --skill zig-dev --agent <agent-name>
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent <agent-name>
 ```
 
 Install for every supported local agent detected by the skills CLI:
 
 ```bash
-npx skills add venjiang/skills --skill zig-dev --agent '*'
+npx skills add venjiang/skills@v0.1.4 --skill zig-dev --agent '*'
 ```
 
 ## Compatibility
