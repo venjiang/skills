@@ -123,3 +123,7 @@ Expected skills.sh page after indexing:
 ```text
 https://www.skills.sh/venjiang/skills/zig-dev
 ```
+
+## License
+
+This repository is licensed under the MIT License. See [LICENSE](LICENSE).
