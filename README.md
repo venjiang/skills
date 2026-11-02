@@ -63,7 +63,7 @@ Release `v0.2.0` includes guidance for Zig 0.16 and 0.17. Earlier release tags r
 Install the current tagged release:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev
 ```
 
 Install the latest `main` branch:
@@ -75,37 +75,37 @@ npx skills add venjiang/skills --skill zig-dev
 Install for Codex:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent codex
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev --agent codex
 ```
 
 Install for Claude Code:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent claude-code
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev --agent claude-code
 ```
 
 Install for OpenCode:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent opencode
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev --agent opencode
 ```
 
 Install for OpenClaw:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent openclaw
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev --agent openclaw
 ```
 
 Install for other supported tools:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent <agent-name>
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev --agent <agent-name>
 ```
 
 Install for every supported local agent detected by the skills CLI:
 
 ```bash
-npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent '*'
+npx skills add https://github.com/venjiang/skills/tree/v0.2.0 --skill zig-dev --agent '*'
 ```
 
 ## Compatibility
