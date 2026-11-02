@@ -2,13 +2,17 @@
 
 Use this for Zig panics, error return traces, allocator leaks, crashes, flaky tests, native debugger sessions, and temporary tracing.
 
+Use the `ZIG` executable selected in `SKILL.md` for every command below.
+For version-dependent failures, capture the compiler version with the failing command.
+Do not compare results from different compilers without identifying each version.
+
 ## Workflow
 
 1. Reproduce through the same interface the user reported:
-   - Project build: `zig build`
-   - Project tests: `zig build test`
-   - Project run step: `zig build run -- <args>`
-   - Self-contained unit: `zig test <file>`
+   - Project build: `"$ZIG" build`
+   - Project tests: `"$ZIG" build test`
+   - Project run step: `"$ZIG" build run -- <args>`
+   - Self-contained unit: `"$ZIG" test <file>`
 2. Capture the exact error, panic, stack trace, or leak report.
 3. Narrow the loop before changing code.
 4. Add temporary tracing only at boundaries that distinguish hypotheses.
@@ -17,14 +21,14 @@ Use this for Zig panics, error return traces, allocator leaks, crashes, flaky te
 ## Useful Commands
 
 ```bash
-zig build -Doptimize=Debug
-zig build test
-zig test src/root.zig
-zig build run -- arg1 arg2
-zig build -freference-trace=8
+"$ZIG" build -Doptimize=Debug
+"$ZIG" build test
+"$ZIG" test src/root.zig
+"$ZIG" build run -- arg1 arg2
+"$ZIG" build -freference-trace=8
 ```
 
-`Debug` is the default optimize mode for `zig build` unless the project overrides it.
+`Debug` is the default optimize mode for `"$ZIG" build` unless the project overrides it.
 
 ## Error Return Traces
 
@@ -45,7 +49,7 @@ Prefer `std.log.scoped` for durable diagnostics. Use `std.debug.print` for short
 ## Native Debugger
 
 ```bash
-zig build -Doptimize=Debug
+"$ZIG" build -Doptimize=Debug
 <debugger> zig-out/bin/<binary>
 ```
 

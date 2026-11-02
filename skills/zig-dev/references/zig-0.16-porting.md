@@ -2,22 +2,26 @@
 
 Use this for Zig `0.15` to `0.16` migrations, old stdlib API errors, `std.Io` adoption, `@Type` removal, `@cImport` migration, and `build.zig.zon` package errors.
 
-Treat this as migration guidance, not as a substitute for local verification. Run `zig env` and inspect local stdlib source when an API detail matters.
+This reference targets `0.16`. For `0.17`, also read `zig-0.17-porting.md` and select the C translation route in `c-interop.md`.
+Use the `ZIG` executable selected in `SKILL.md` for every command below.
+
+Check migration guidance against the selected compiler. Run `"$ZIG" env` and inspect local stdlib source when an API detail matters.
 
 ## Local Documentation First
 
 ```bash
-zig version
-zig env
+"$ZIG" version
+"$ZIG" env
 ```
 
-Use `zig env` to find:
+Use `"$ZIG" env` to find:
 
 - `.std_dir`: local standard library source.
 - `.lib_dir`: Zig library directory.
 - `.version`: active compiler version.
 
-Prefer local source and `zig build` diagnostics over web snippets. For stdlib docs, `zig std` starts local documentation in a browser; use it only when opening a local browser is appropriate.
+Prefer local source and `"$ZIG" build` diagnostics over web snippets.
+`"$ZIG" std` starts local documentation in a browser. Use it only when opening a local browser is appropriate.
 
 ## Quick Migration Checks
 
@@ -155,9 +159,11 @@ Zig `0.16` package manifests use enum-literal names and fingerprints:
 }
 ```
 
-If `fingerprint` is missing, let `zig build` generate or report the required value rather than inventing one blindly. Changing an existing fingerprint has package identity and trust implications.
+If `fingerprint` is missing, use the value generated or reported by `"$ZIG" build`.
+Changing an existing fingerprint has package identity and trust implications.
 
-Use `zig fetch --save <url>` to add package dependencies when possible. Use `zig build --fetch` to fetch dependency trees without compiling.
+Use `"$ZIG" fetch --save <url>` to add package dependencies when possible.
+Use `"$ZIG" build --fetch` to fetch dependency trees without compiling.
 
 ## Common Error Patterns
 
@@ -165,7 +171,7 @@ Use `zig fetch --save <url>` to add package dependencies when possible. Use `zig
 | --- | --- | --- |
 | `no field named 'root_source_file'` in build options | Old build API on `addExecutable`/`addLibrary` | Use `root_module = b.createModule(...)` |
 | `expected 2 argument(s), found 1` on `ArrayList` | Missing allocator parameter | Pass allocator to `append`, `appendSlice`, `deinit`, `toOwnedSlice` |
-| `no module named ... available` in single-file command | File depends on build graph imports | Use `zig build` / `zig build test` |
+| `no module named ... available` in single-file command | File depends on build graph imports | Use `"$ZIG" build` / `"$ZIG" build test` |
 | `fingerprint field missing` | Old `build.zig.zon` | Add generated `.fingerprint` and use enum-literal `.name` |
 | old `std.io.fixedBufferStream` usage | I/O API migration | Use `std.Io.Reader.fixed` or `std.Io.Writer.fixed` |
 | old `std.fs.File.stdout` usage | I/O API migration | Use `std.Io.File.stdout().writer(init.io, buffer)` |
@@ -175,8 +181,8 @@ Use `zig fetch --save <url>` to add package dependencies when possible. Use `zig
 
 ## Validation
 
-- After migration: `zig fmt --check <changed files>`.
-- For syntax-level migration: `zig ast-check <file>`.
-- For project behavior: `zig build test`.
-- For hanging tests: `zig build test --test-timeout 500ms`.
-- For package manifest changes: `zig build --fetch` followed by `zig build`.
+- After migration: `"$ZIG" fmt --check <changed files>`.
+- For syntax-level migration: `"$ZIG" ast-check <file>`.
+- For project behavior: `"$ZIG" build test`.
+- For hanging tests: `"$ZIG" build test --test-timeout 500ms`.
+- For package manifest changes: `"$ZIG" build --fetch` followed by `"$ZIG" build`.

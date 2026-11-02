@@ -2,25 +2,26 @@
 
 Use this for `-Dtarget`, target triples, `zig cc`, WASM, embedded, and multi-target release artifacts.
 
+Use the `ZIG` executable selected in `SKILL.md` for every command below.
+Check target and SDK support with that compiler. Support can differ between `0.16` and `0.17`.
+
 ## Project Builds
 
 Prefer project build options when `build.zig` exists:
 
 ```bash
-zig build -Dtarget=x86_64-linux-musl -Doptimize=ReleaseSmall
-zig build -Dtarget=wasm32-wasi -Doptimize=ReleaseSmall
+"$ZIG" build -Dtarget=x86_64-linux-musl -Doptimize=ReleaseSmall
+"$ZIG" build -Dtarget=wasm32-wasi -Doptimize=ReleaseSmall
 ```
 
-Use `zig build --help` to confirm the project exposes `-Dtarget` and `-Doptimize`. Zig `0.16.0` templates do this through `b.standardTargetOptions(.{})` and `b.standardOptimizeOption(.{})`.
+Use `"$ZIG" build --help` to check that the project exposes `-Dtarget` and `-Doptimize`.
+Both versions support `b.standardTargetOptions(.{})` and `b.standardOptimizeOption(.{})`.
 
 ## Target Discovery
 
-Use local Zig instead of hardcoding long target tables. `zig targets` can print tens of thousands of lines, so avoid running it unbounded when only a small fact is needed.
-
-```bash
-zig targets 2>&1 | head -c 12000
-zig targets 2>&1 | rg "x86_64-linux-musl|wasm32-wasi|aarch64-macos"
-```
+Use the selected compiler instead of hardcoding long target tables.
+`"$ZIG" targets` can produce large output. Save its complete output to a temporary file before searching it.
+Check the compiler's exit status before using the saved output.
 
 Common examples to try only when relevant:
 
@@ -39,17 +40,18 @@ Common examples to try only when relevant:
 Only use single-file commands when the file is self-contained and does not depend on build graph imports:
 
 ```bash
-zig build-exe src/main.zig -target x86_64-linux-musl -O ReleaseSmall
-zig test src/root.zig
+"$ZIG" build-exe src/main.zig -target x86_64-linux-musl -O ReleaseSmall
+"$ZIG" test src/root.zig
 ```
 
-If source imports modules injected by `build.zig`, single-file commands can fail with `no module named ... available`; switch back to `zig build`.
+If source imports modules from `build.zig`, single-file commands can fail with `no module named ... available`.
+Use `"$ZIG" build` for those modules.
 
 ## C Cross Compilation
 
 ```bash
-zig cc -target x86_64-linux-musl -O2 -o myapp main.c
-zig cc -target aarch64-linux-gnu -c src/answer.c -I include -o answer.o
+"$ZIG" cc -target x86_64-linux-musl -O2 -o myapp main.c
+"$ZIG" cc -target aarch64-linux-gnu -c src/answer.c -I include -o answer.o
 ```
 
 For C interop, verify libc, sysroot, include paths, and linked libraries. Pure Zig cross-builds usually need less host setup than mixed C/Zig builds.

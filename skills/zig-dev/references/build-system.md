@@ -2,9 +2,13 @@
 
 Use this when editing `build.zig`, `build.zig.zon`, modules, tests, build options, package fetching, or build failures.
 
-## Zig 0.16 Build Shape
+Use the `ZIG` executable selected in `SKILL.md` for every command below.
 
-Prefer the Zig `0.16.0` module API. `zig init` generates `root_module` and `b.createModule` patterns.
+## Shared Zig 0.16 And 0.17 Build Shape
+
+Both versions support `root_module` and `b.createModule`. Use this shared structure for ordinary modules, executables, and tests.
+For C translation, select the version-specific API in `c-interop.md`.
+For changes to custom build steps or configuration logic on `0.17`, also read `zig-0.17-porting.md`.
 
 ```zig
 const std = @import("std");
@@ -35,7 +39,11 @@ pub fn build(b: *std.Build) void {
     const run_step = b.step("run", "Run the app");
     const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
-    if (b.args) |args| run_cmd.addArgs(args);
+    if (@hasField(std.Build, "args")) {
+        if (b.args) |args| run_cmd.addArgs(args);
+    } else {
+        run_cmd.addPassthruArgs();
+    }
     run_step.dependOn(&run_cmd.step);
 
     const lib_tests = b.addTest(.{ .root_module = lib_mod });
@@ -48,6 +56,12 @@ pub fn build(b: *std.Build) void {
 ```
 
 Avoid defaulting to older examples that pass `.root_source_file`, `.target`, and `.optimize` directly to `b.addExecutable`; existing projects may still use older patterns, but new local guidance should follow `root_module`.
+
+The argument-forwarding branch makes this example work with both versions.
+For a single-version project, use only its matching form:
+
+- Zig `0.16`: `if (b.args) |args| run_cmd.addArgs(args);`.
+- Zig `0.17`: `run_cmd.addPassthruArgs();`.
 
 ## Build Options
 
@@ -66,22 +80,23 @@ In Zig source:
 const build_options = @import("build_options");
 ```
 
-Validate visibility with `zig build --help`; project-specific options should appear as `-D<option>`.
+Check visibility with `"$ZIG" build --help`. Project-specific options should appear as `-D<option>`.
 
 ## Package Manifest
 
-For `build.zig.zon` in Zig `0.16.0`:
+For `build.zig.zon` in Zig `0.16` and `0.17`:
 
 - `.minimum_zig_version` should reflect the project's real baseline.
-- Dependencies should be added with `zig fetch --save <url>` when possible.
-- `zig build --fetch` fetches dependency trees and can run without compiling.
+- Preserve existing dependency pins. Select dependency releases that support the chosen compiler before adding or upgrading packages.
+- Add dependencies with `"$ZIG" fetch --save <url>` when possible.
+- `"$ZIG" build --fetch` fetches dependency trees without compiling the project.
 - `.paths` should list only files needed for the package hash and consumption.
 
 ## Validation
 
-- `zig build`
-- `zig build test`
-- `zig build --help`
-- `zig build --summary all` when build graph behavior matters.
-- `zig fmt --check build.zig <changed .zig files>`
-- `zig ast-check build.zig` for syntax-level checks.
+- `"$ZIG" build`
+- `"$ZIG" build test`
+- `"$ZIG" build --help`
+- `"$ZIG" build --summary all` when build graph behavior matters.
+- `"$ZIG" fmt --check build.zig <changed .zig files>`
+- `"$ZIG" ast-check build.zig` for syntax-level checks.

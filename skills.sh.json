@@ -4,7 +4,7 @@
   "groupings": [
     {
       "title": "Zig Development",
-      "description": "Zig build, test, C interop, cross-compilation, debugging, and migration workflows.",
+      "description": "Development and migration workflows for Zig 0.16 and 0.17.",
       "skills": ["zig-dev"]
     }
   ]

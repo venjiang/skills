@@ -39,7 +39,7 @@ Use the all-agent command below to install into every supported target detected 
 
 ## Skills
 
-- `zig-dev`: Zig development workflow for source files, build files, tests, C interop, cross-compilation, and Zig 0.16 migration.
+- `zig-dev`: Zig 0.16 and 0.17 development guidance for source files, build files, tests, C interop, cross-compilation, and migration.
 
 ### `zig-dev`
 
@@ -48,16 +48,22 @@ Use this skill when working with:
 - `.zig` source files
 - `build.zig` and `build.zig.zon`
 - Zig tests and build failures
-- C interop with `b.addTranslateC`, C ABI types, and `zig cc`
+- C interop with `b.addTranslateC`, the external `translate_c` package, C ABI types, and `zig cc`
 - Cross-compilation, WASM, and embedded targets
 - Zig 0.15 to 0.16 migration issues
+- Zig 0.16 to 0.17 migration issues
+
+The skill selects version-specific guidance from the project's toolchain requirements and the actual compiler version.
+Skill support for both versions does not require each project to support both versions.
 
 ## Install `zig-dev`
 
-Install the current release:
+Release `v0.2.0` includes guidance for Zig 0.16 and 0.17. Earlier release tags retain their published contents.
+
+Install the current tagged release:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev
 ```
 
 Install the latest `main` branch:
@@ -69,37 +75,37 @@ npx skills add venjiang/skills --skill zig-dev
 Install for Codex:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent codex
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent codex
 ```
 
 Install for Claude Code:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent claude-code
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent claude-code
 ```
 
 Install for OpenCode:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent opencode
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent opencode
 ```
 
 Install for OpenClaw:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent openclaw
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent openclaw
 ```
 
 Install for other supported tools:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent <agent-name>
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent <agent-name>
 ```
 
 Install for every supported local agent detected by the skills CLI:
 
 ```bash
-npx skills add venjiang/skills@v0.1.5 --skill zig-dev --agent '*'
+npx skills add venjiang/skills@v0.2.0 --skill zig-dev --agent '*'
 ```
 
 ## Compatibility
@@ -134,7 +140,8 @@ https://www.skills.sh/venjiang/skills/zig-dev
 
 ## Releases
 
-- `v0.1.5`: Current recommended release. Pins agent install commands and refines skills.sh repository grouping metadata.
+- `v0.2.0`: Current recommended release. Adds Zig `0.17` guidance and version-specific toolchain selection while retaining Zig `0.16` support.
+- `v0.1.5`: Pins agent install commands and refines skills.sh repository grouping metadata.
 - `v0.1.4`: Updates repository docs and skill metadata after the Zig `0.16` C interop refinements.
 - `v0.1.3`: Adds C enum wrapper mapping guidance and validates translated C enum handling.
 - `v0.1.2`: Adds CI and the Zig `0.16` C interop fixture.
@@ -145,7 +152,7 @@ https://www.skills.sh/venjiang/skills/zig-dev
 
 The repository includes a Zig `0.16.0` C interop fixture at `tests/zig-0.16-c-interop-addtranslatec`. It validates the official `b.addTranslateC` plus `@import("c")` path for new Zig `0.16` C interop code.
 
-GitHub Actions validates:
+GitHub Actions validates the Zig 0.16 fixture:
 
 - `npx skills add . --skill zig-dev --list`
 - `zig fmt --check`
@@ -155,6 +162,9 @@ GitHub Actions validates:
 - `zig build run`
 - `zig build -Dtarget=x86_64-linux-musl -Doptimize=ReleaseSmall`
 - `zig cc -target x86_64-linux-musl`
+
+Additional local checks used Zig `0.16.0` and `0.17.0` on macOS.
+They covered shared builds, tests, argument forwarding, process I/O, version-specific C translation, and WASM object compilation.
 
 ## License
 

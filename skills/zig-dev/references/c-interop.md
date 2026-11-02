@@ -1,12 +1,19 @@
 # C Interop
 
-Use this for Zig `0.16` C interop with `b.addTranslateC`, translated C modules, C ABI types, `extern struct`, opaque handles, mixed C/Zig builds, and `zig cc`.
+Use this for Zig `0.16` and `0.17` C translation, C ABI types, mixed C/Zig builds, and `zig cc`.
+Use the `ZIG` executable selected in `SKILL.md` for every command below.
 
-Do not use deprecated `@cImport` / `@cInclude` for new Zig `0.16` code. Treat them as legacy patterns only when reading or minimally maintaining existing code.
+## Select C Translation By Version
 
-Official Zig `0.16.0` guidance: release notes mark `@cImport` as deprecated and provide `b.addTranslateC` plus `@import("c")` as the build-system upgrade path: https://ziglang.org/download/0.16.0/release-notes.html#cimport-moving-to-build-system
+- In `0.16`, `@cImport` is deprecated. Prefer `b.addTranslateC` for new build-integrated translation.
+- In `0.17`, `@cImport` is removed. Prefer the official external `translate_c` package for new build-integrated translation.
+- The `0.17` standard library still provides `b.addTranslateC`. Its translation step is deprecated, not removed.
+- Preserve working translation code unless the task requires migration. Do not add a `0.17` dependency to a `0.16` project.
+- Read the pinned translator package's manifest and API before changing translation options.
 
-## Zig 0.16 Build Integration
+Sources: [Zig 0.16 release notes](https://ziglang.org/download/0.16.0/release-notes.html#cimport-moving-to-build-system), [Zig 0.17 release notes](https://ziglang.org/download/0.17.0/release-notes.html), and [official translate-c package](https://codeberg.org/ziglang/translate-c).
+
+## Shared C Source Integration
 
 Attach C sources, include paths, and libc linkage to the root module:
 
@@ -37,7 +44,7 @@ exe.root_module.addCSourceFiles(.{
 });
 ```
 
-## Translating Headers For Zig
+## Zig 0.16 Header Translation
 
 ```zig
 const translated = b.addTranslateC(.{
@@ -64,6 +71,36 @@ Then import translated declarations from Zig source:
 ```zig
 const c = @import("c");
 ```
+
+## Zig 0.17 Header Translation
+
+Reuse an existing compatible `translate_c` dependency. If the project needs a new translator dependency, select a release for Zig `0.17`.
+The official `zig-0.17.x` branch identifies that compatibility line:
+
+```bash
+"$ZIG" fetch --save git+https://codeberg.org/ziglang/translate-c#zig-0.17.x
+```
+
+Inspect the resulting manifest and retain its resolved hash. Do not assume the package's default branch supports `0.17`.
+The following fragment uses the `Translator` API from release `2.0.2`, which declares Zig `0.17.0` as its minimum version:
+
+```zig
+const Translator = @import("translate_c").Translator;
+
+// Inside build(), after creating exe and selecting target and optimize.
+const translator_package = b.dependency("translate_c", .{});
+const header: Translator = .init(translator_package, .{
+    .c_source_file = b.path("include/answer.h"),
+    .target = target,
+    .optimize = optimize,
+});
+exe.root_module.addImport("c", header.mod);
+```
+
+Import the declarations with `@import("c")`, as in the `0.16` example.
+Translator options belong to the pinned package API. They are not necessarily methods on `header.mod`.
+
+## ABI Boundaries
 
 Common ABI rules:
 
@@ -116,26 +153,29 @@ Use this rule of thumb:
 
 ## translate-c
 
-`zig translate-c` is useful for inspecting how Zig sees C declarations, but do not make it a default fast validation step. On this local Zig `0.16.0` environment, trivial `translate-c` checks may take longer than normal build commands. Use it only when ABI translation is the question.
+Use the project's translation build step to inspect generated declarations.
+The built-in `zig translate-c` command is a legacy interface. It can be slow on some local installations.
+Check the selected compiler's help before using it. Prefer the pinned package or existing build step on `0.17`.
 
 Typical focused use:
 
 ```bash
-zig translate-c -I include include/library.h
+"$ZIG" translate-c -I include include/library.h
 ```
 
 Prefer existing headers, project bindings, and successful `zig build` output as the first validation surface.
 
 ## Legacy @cImport
 
-`@cImport` still exists in Zig `0.16.0`, but official release notes mark it deprecated and moving to the build system. Do not introduce it in new code. If an existing project uses `@cImport` and it builds, leave it alone unless the task is explicitly a migration or the touched code already needs C interop changes.
+`@cImport` still exists in Zig `0.16`, but it is deprecated. Do not introduce it in new code.
+Preserve working legacy code during unrelated maintenance. For a migration to `0.17`, replace it through the build graph.
 
 ## zig cc
 
 Use `zig cc` when Zig is acting as a C compiler or cross C compiler:
 
 ```bash
-zig cc -target x86_64-linux-musl -c src/answer.c -I include -o answer.o
+"$ZIG" cc -target x86_64-linux-musl -c src/answer.c -I include -o answer.o
 ```
 
 This validates C compiler flags and target availability without requiring a full Zig build graph.

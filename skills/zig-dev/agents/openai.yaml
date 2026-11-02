@@ -1,4 +1,4 @@
 interface:
   display_name: "Zig Dev"
-  short_description: "Zig build, test, interop, and porting guidance"
-  default_prompt: "Use $zig-dev to diagnose a Zig build or migration issue."
+  short_description: "Zig 0.16/0.17 builds, tests, interop, and porting"
+  default_prompt: "Use $zig-dev to select the project toolchain and resolve a Zig 0.16 or 0.17 development issue."
